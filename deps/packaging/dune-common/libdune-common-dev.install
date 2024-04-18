@@ -1,0 +1,11 @@
+usr/bin
+usr/include
+usr/lib
+usr/share/bash-completion
+usr/share/dune-common
+usr/share/dune
+usr/share/man
+
+debian/dune-autopkgtest usr/share/dune
+debian/dune-debian.env usr/share/dune
+debian/dune-debian.mk usr/share/dune

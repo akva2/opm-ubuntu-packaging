@@ -1,0 +1,6 @@
+# We don't build a separate shared library package.
+# See also https://lists.debian.org/debian-devel/2015/07/msg00115.html
+libdune-common-dev: non-dev-pkg-with-shlib-symlink *
+libdune-common-dev: package-name-doesnt-match-sonames *
+# ABI is too unstable to warrant extra work with a symbols file
+libdune-common-dev: no-symbols-control-file

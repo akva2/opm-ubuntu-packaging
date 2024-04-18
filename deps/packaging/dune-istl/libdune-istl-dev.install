@@ -1,0 +1,6 @@
+usr/include
+usr/lib/cmake
+usr/lib/dunecontrol
+usr/share/dune
+usr/share/dune-istl
+usr/share/pkgconfig

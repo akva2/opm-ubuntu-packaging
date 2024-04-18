@@ -1,0 +1,23 @@
+Prevent lintian warning about file-references-package-build-path
+--- a/cmake/modules/DuneProject.cmake
++++ b/cmake/modules/DuneProject.cmake
+@@ -242,13 +242,17 @@ endif()")
+     set(DUNE_MODULE_PYTHONREQUIRES "")
+   endif()
+ 
++  # Strip -ffile-prefix-map=[^ \t]* o prevent lintian warning
++  # about file-references-package-build-path
++  set(_configure_file_cxx_flags_backup ${CMAKE_CXX_FLAGS})
++  string(REGEX REPLACE "-ffile-prefix-map=[^ \t]*" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+   configure_package_config_file(${CONFIG_SOURCE_FILE}
+     ${PROJECT_BINARY_DIR}/cmake/pkg/${ProjectName}-config.cmake
+     INSTALL_DESTINATION  ${DUNE_INSTALL_LIBDIR}/cmake/${ProjectName}
+     PATH_VARS CMAKE_INSTALL_DATAROOTDIR DUNE_INSTALL_MODULEDIR CMAKE_INSTALL_INCLUDEDIR
+     DOXYSTYLE_DIR SCRIPT_DIR)
+-
+-
++  set(CMAKE_CXX_FLAGS ${_configure_file_cxxflags_backup})
++  
+   #create cmake-config files for build tree
+   set(PACKAGE_CMAKE_INSTALL_INCLUDEDIR ${PROJECT_SOURCE_DIR})
+   set(PACKAGE_CMAKE_INSTALL_DATAROOTDIR ${PROJECT_BINARY_DIR})

@@ -1,0 +1,20 @@
+--- a/bin/CMakeLists.txt
++++ b/bin/CMakeLists.txt
+@@ -5,7 +5,15 @@ install(PROGRAMS
+   dune-ctest
+   duneproject
+   dunecontrol
+-  dunepackaging.py
+   dune-git-whitespace-hook
+-  rmgenerated.py
+   DESTINATION ${CMAKE_INSTALL_BINDIR})
++
++# install these scripts only if Python bindings are enabled
++if(DUNE_ENABLE_PYTHONBINDINGS)
++  install(PROGRAMS
++    dunepackaging.py
++    rmgenerated.py
++    DESTINATION ${CMAKE_INSTALL_BINDIR})
++endif()
++
++

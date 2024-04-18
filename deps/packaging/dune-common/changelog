@@ -1,0 +1,466 @@
+dune-common (2.9.1-1) unstable; urgency=medium
+
+  * patches: fix: use values that are representable as double in test.
+    This should fix the test failure on i386.
+    + new patch: 0002-fix-use-values-that-are-representable-as-double-in-t.patch
+
+ -- Ansgar <ansgar@debian.org>  Tue, 26 Dec 2023 19:41:53 +0100
+
+dune-common (2.9.0-5) unstable; urgency=medium
+
+  * patches: fix: use values that are representable as double in test.
+    This should fix the build failure on i386.
+    + new patch: 0001-fix-use-values-that-are-representable-as-double-in-t.patch
+
+ -- Ansgar <ansgar@debian.org>  Tue, 26 Dec 2023 15:52:42 +0100
+
+dune-common (2.9.0-4) unstable; urgency=medium
+
+  * Team upload
+  * Replace libatlas-base-dev by libblas-dev | libblas.so in (Build-)Depends
+    (Closes: #1056669)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 22 Dec 2023 15:55:58 +0100
+
+dune-common (2.9.0-3) unstable; urgency=medium
+
+  * d/patches: Backported upstream GCC-13 compile fix
+      (Closes: #1037630)
+
+ -- Markus Blatt <markus@dr-blatt.de>  Thu, 13 Jul 2023 08:20:17 +0200
+
+dune-common (2.9.0-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * d/patches: Prevent build-path from appearing in downstream DUNE modules
+  * d/control: Added Markus Blatt as uploader (with consent of Ansgar)
+
+ -- Markus Blatt <markus@dr-blatt.de>  Thu, 12 Jan 2023 16:39:41 +0100
+
+dune-common (2.9.0-1) experimental; urgency=medium
+
+  [ Markus Blatt ]
+  * d/patches: Prevent file-references-package-build-path lintian warning
+  * d/upstream: Added upstream metadata file.
+  * d/get-orig-source: Adapted to removed dune-grid/amiramesh directory.
+  * d/patches: Refreshed patches and fixed dune.module
+  * New upstream release (2.9.0).
+
+  [ Ansgar ]
+  * d/control: set Standards-Version to 4.6.2 (no changes).
+
+ -- Ansgar <ansgar@debian.org>  Sat, 07 Jan 2023 21:52:09 +0100
+
+dune-common (2.8.0-4) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Markus Blatt ]
+  * FindMETIS.cmake: Also search for libscotchmetisv5 and libscotchmetisv3
+      (Closes: #1007823, #1007830, #1007930)
+
+  [ Drew Parsons ]
+  * apply FindMETis.cmake patch in debian patch findmetis_scotch7.patch
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 19 Mar 2022 13:10:34 +0100
+
+dune-common (2.8.0-3) unstable; urgency=medium
+
+  * d/control: remove Breaks/Replaces entries
+
+ -- Patrick Jaap <patrick.jaap@tu-dresden.de>  Thu, 21 Oct 2021 18:29:30 +0200
+
+dune-common (2.8.0-2) experimental; urgency=medium
+
+  * d/patches: Add patch to not install Python scripts
+
+ -- Patrick Jaap <patrick.jaap@tu-dresden.de>  Fri, 08 Oct 2021 12:02:33 +0200
+
+dune-common (2.8.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Add patch to disable eigenvalue checks for "long double"
+  * d/patches: Add patch to force python3 in bin/rmgenerated.py
+  * Set standards to 4.5.1
+
+ -- Patrick Jaap <patrick.jaap@tu-dresden.de>  Wed, 15 Sep 2021 10:50:45 +0200
+
+dune-common (2.8.0~rc1-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Adapt soname.patch to code changes.
+  * d/rules: Explicitly use cmake buildsystem.
+  * d/clean: Explicitly clear __pycache__ directory.
+
+ -- Patrick Jaap  <patrick.jaap@tu-dresden.de>  Fri, 20 Aug 2021 09:05:19 -0400
+
+dune-common (2.7.1-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Ansgar <ansgar@debian.org>  Mon, 11 Jan 2021 22:23:00 +0100
+
+dune-common (2.7.1-1) experimental; urgency=medium
+
+  * New upstream release.
+
+ -- Lisa Julia Nebel <lisa_julia.nebel@tu-dresden.de>  Tue, 05 Jan 2021 17:51:34 +0100
+
+dune-common (2.7.0-5) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Ansgar <ansgar@debian.org>  Wed, 15 Jul 2020 12:29:39 +0200
+
+dune-common (2.7.0-4) experimental; urgency=medium
+
+  * Only build "quick" tests on mips64el and mipsel as Debian's
+    buildd servers are too slow.
+
+ -- Ansgar <ansgar@debian.org>  Wed, 10 Jun 2020 14:20:16 +0200
+
+dune-common (2.7.0-3) experimental; urgency=medium
+
+  * d/control: Add explicit dependency on libatlas-base-dev.
+    CMake's `find_package(LAPACK)` adds `libf77blas.so` to the list
+    of interface libraries that other DUNE module link against.
+
+ -- Ansgar <ansgar@debian.org>  Mon, 25 May 2020 14:59:18 +0200
+
+dune-common (2.7.0-2) experimental; urgency=medium
+
+  * d/dune-debian.mk: Add `-ffloat-store` to CXXFLAGS on i386.
+    See https://gitlab.dune-project.org/core/dune-common/issues/207
+  * d/control: (Build-)Depends on liblapack-dev.  LAPACK is needed by
+    functions in `fmatrixev.hh` which are used by new quadrature rule
+    implementations in dune-geometry.
+
+ -- Ansgar <ansgar@debian.org>  Thu, 21 May 2020 23:06:05 +0200
+
+dune-common (2.7.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Add runtime dependency on mpi-default-{bin,dev}. DUNE should by
+    default be used with MPI support enabled.
+  * Use debhelper compat level 13.
+  * Drop patch rename-git-whitespace-hook.patch (applied upstream).
+  * Bumped Standards-Version to 4.5.0 (no changes).
+
+ -- Ansgar <ansgar@debian.org>  Wed, 20 May 2020 21:06:31 +0200
+
+dune-common (2.6.0-4) unstable; urgency=medium
+
+  * no longer ship dune-am2cmake and remove dependency on python2.
+    (Closes: #936456)
+  * Bumped Standards-Version to 4.4.1.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 14 Oct 2019 23:27:35 +0200
+
+dune-common (2.6.0-3) unstable; urgency=medium
+
+  * Add runtime dependency on gfortran. Configuring a DUNE project without
+    a Fortran compiler fails.
+  * autopkgtest: Add dependency on MPI as the test builds and runs an MPI
+    program.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Thu, 21 Jun 2018 09:17:17 +0200
+
+dune-common (2.6.0-2) unstable; urgency=medium
+
+  * Add a simple autopkgtest.  The driver (dune-autopkgtest) is also
+    usable by other DUNE modules.
+  * Promote CMake from Recommends to Depends.
+  * Bumped Standards-Version to 4.1.4 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 20 Jun 2018 23:37:32 +0200
+
+dune-common (2.6.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * d/control: now requires cmake >= 3.1
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 03 Apr 2018 00:20:33 +0200
+
+dune-common (2.6.0~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * d/control: update Vcs-* fields for move to salsa.debian.org
+  * Bumped Standards-Version to 4.1.3 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sat, 06 Jan 2018 15:50:50 +0100
+
+dune-common (2.6~20171122-1) experimental; urgency=medium
+
+  * New upstream snapshot (commit: 77b87e7c3931fc70f46be2e4cae7058127c92edf).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 22 Nov 2017 17:38:48 +0100
+
+dune-common (2.6~20171113-2) experimental; urgency=medium
+
+  * arithmetictestsuite: quotient must be representable without error.
+    This should correct the build failure on i386.
+    + new patch: 0001-quotient-must-be-representable-without-error.patch
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 14 Nov 2017 08:01:05 +0100
+
+dune-common (2.6~20171113-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * d/control: add `Rules-Requires-Root: no`
+  * d/get-orig-source: no longer include Git commit id in snapshot versions
+  * libdune-common-doc: add Built-Using: doxygen (for jquery.js).
+  * Bumped Standards-Version to 4.1.1 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 14 Nov 2017 00:12:14 +0100
+
+dune-common (2.5.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Build-Depend on texlive-pictures instead of pgf. (Closes: #867073)
+  * debian/copyright: Update URLs.
+  * Bumped Standards-Version to 4.0.0 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 18 Jul 2017 11:53:29 +0200
+
+dune-common (2.5.1~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * No longer build manual -dbg package. Use the automatically generated
+    -dbgsym package instead.
+  * dune-debian.mk: do not limit number of MPI ranks to number of cores
+    when running tests. (Closes: #850229)
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sat, 17 Jun 2017 15:48:18 +0200
+
+dune-common (2.5.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sun, 18 Dec 2016 12:58:14 +0100
+
+dune-common (2.5.0~rc2-2) unstable; urgency=medium
+
+  * Add Breaks+Replaces: libdune-functions-dev (<< 2.5.0~)
+    (Closes: #847142)
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 05 Dec 2016 23:41:24 +0100
+
+dune-common (2.5.0~rc2-1) unstable; urgency=medium
+
+  * Upload to unstable.
+  * New upstream release candidate.
+  * dune-debian.mk: Restore variable for configure options.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 05 Dec 2016 23:09:55 +0100
+
+dune-common (2.5.0~rc1-3) experimental; urgency=medium
+
+  * Call dh_sphinxdoc only when building arch-indep packages.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 22 Nov 2016 21:12:02 +0100
+
+dune-common (2.5.0~rc1-2) experimental; urgency=medium
+
+  * Patch: Add correct offset for end of chunk
+    This should fix the build failure on 32bit architectures.
+    + 0001-Add-correct-offset-for-end-of-chunk.patch
+  * Use dh_sphinxdoc.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 22 Nov 2016 20:21:37 +0100
+
+dune-common (2.5.0~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Switch to CMake.
+  * dune-debian.mk: Simplify running tests.
+  * Bumped Standards-Version to 3.9.8 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 21 Nov 2016 20:37:38 +0100
+
+dune-common (2.4.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Mark libdune-common-dev as Multi-Arch: same.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 29 Feb 2016 10:19:18 +0100
+
+dune-common (2.4.1~rc2-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sun, 28 Feb 2016 13:18:16 +0100
+
+dune-common (2.4.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 25 Sep 2015 22:29:28 +0200
+
+dune-common (2.4~20150912rc3-1) unstable; urgency=medium
+
+  * New upstream release candidate.
+  * dune-debian.mk: Add options to enable UMFPack support.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sun, 13 Sep 2015 13:38:49 +0200
+
+dune-common (2.4~20150825rc2-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Move shared library into -dev package and provide a virtual package
+    that changes with the upstream version for shlib dependencies. See
+    also https://lists.debian.org/debian-devel/2015/07/msg00115.html
+  * libdune-common-dev: Add -doc package as a suggested package.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 04 Sep 2015 14:24:36 +0200
+
+dune-common (2.4~20150717rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 17 Jul 2015 20:45:00 +0200
+
+dune-common (2.4~20150617g6f17141-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * get-orig-source: Use commit date instead of current date.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 19 Jun 2015 23:11:40 +0200
+
+dune-common (2.4~20150521g15491c4-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Thu, 21 May 2015 21:46:50 +0200
+
+dune-common (2.4~20150505g1ce8697-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * Change shared library package name to libdune-common-2.4git.
+  * Update debian/copyright for new upstream snapshot.
+  * Add Build-Depends-Indep: graphviz for "dot".
+  * dune-debian.mk: Continue to use autotools for now.
+  * Bumped Standards-Version to 3.9.6 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 05 May 2015 21:53:57 +0200
+
+dune-common (2.3.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Install bash completion for dunecontrol.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 17 Jun 2014 19:46:31 +0200
+
+dune-common (2.3.1~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate.
+  * Change shared library package name to libdune-common-2.3.1.
+  * dune-debian.mk: Enable support for UG.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 10 Jun 2014 19:54:09 +0200
+
+dune-common (2.3.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Change shared library package name to libdune-common-2.3.0.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 14 Feb 2014 09:12:40 +0100
+
+dune-common (2.3~20140122g7a7cf2b-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 22 Jan 2014 23:10:56 +0100
+
+dune-common (2.3~20140117beta2-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * Remove patches that should be obsoleted by upstream changes.
+  * dune-debian.mk: Remove obsolete --enable-fieldvector-size-is-method flag.
+  * libdune-common-dev.install: Install /usr/lib/*/cmake.
+  * Backport 073167e61070a5e952c738c02d85c3f946717e40 ([dune-autogen]
+    Prevents overriding am_dir with installed modules) from master branch.
+    + New patch: 0001-dune-autogen-Prevents-overriding-am_dir-with-install.patch
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Mon, 20 Jan 2014 13:42:47 +0100
+
+dune-common (2.3~20140111beta1-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * Rename git-whitespace-hook to dune-git-whitespace-hook.
+  * Install cmake modules. Note that it is still not possible to use
+    cmake with the Debian packages.
+  * debian/control: Remove ${shlibs:Depends} from -dev and -dbg package.
+  * debian/dune-debian.mk: Use default compression for binary packages.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 15 Jan 2014 13:33:04 +0100
+
+dune-common (2.3~20140103g107b57a-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * Install man page using dh_installman as "make install" is not called
+    for the doc subdirectory and thus dh_install cannot find usr/share/man.
+  * debian/dune-debian.mk: Restore --without-parmetis.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Fri, 03 Jan 2014 00:40:13 +0100
+
+dune-common (2.3~20131227g6c02812-1) experimental; urgency=medium
+
+  * New upstream snapshot.
+  * Add Build-Depends on texlive-latex-extra (for subfigure.sty).
+  * Change shared library package name to libdune-common-2.3svn.
+  * Patch dunecontrol to skip directories starting with a dot when
+    looking for dune.module.
+    + new patch: skip-dirs-starting-with-dot.patch
+  * Install dune_cxa_demangle.m4.
+    + new patch: 0001-Install-dune_cxa_demangle.m4.patch
+  * debian/dune-debian.mk: Do not pass --without-parmetis to configure
+    as doing so triggers a bug causing the configure script to abort, cf.
+    <https://dune-project.org/flyspray/index.php?do=details&task_id=1404>
+  * debian/control: Use canonical Vcs-* URIs.
+  * debian/control: Drop pre-depends on dpkg (>= 1.15.6) which is
+    already satisfied in Debian 6.
+  * debian/rules: Install am2cmake.py as dune-am2cmake.
+  * libdune-common-dev: Add dependency on python and python-pyparsing
+    for am2cmake.py.
+  * libdune-common-dev: Include man page for dunecontrol.
+  * Bumped Standards-Version to 3.9.5 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Wed, 01 Jan 2014 19:40:32 +0100
+
+dune-common (2.2.1-2) unstable; urgency=low
+
+  * Upload to unstable.
+  * Bumped Standards-Version to 3.9.4 (no changes).
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sun, 12 May 2013 18:30:12 +0200
+
+dune-common (2.2.1-1) experimental; urgency=low
+
+  * New upstream release. (Closes: #701866)
+  * debian/copyright: Update for new upstream release.
+  * Mark runtime and debug packages as Multi-Arch: same.
+  * lib/dunemodules.lib: Fix PARSER_TRIM.
+    + new patch: fix-PARSER_TRIM.diff
+  * Update aclocal.patch.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sat, 02 Mar 2013 02:17:38 +0100
+
+dune-common (2.2.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Install dunemodules.lib to /usr/lib.
+  * Update debian/copyright.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Tue, 05 Jun 2012 10:17:59 +0200
+
+dune-common (2.2~svn6684-1) experimental; urgency=low
+
+  * New upstream snapshot.
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sun, 06 May 2012 14:31:49 +0200
+
+dune-common (2.2~svn6573-1) experimental; urgency=low
+
+  * Initial release. (Closes: #661823)
+
+ -- Ansgar Burchardt <ansgar@debian.org>  Sat, 17 Mar 2012 17:15:13 +0100

@@ -1,0 +1,7 @@
+#! /bin/bash
+
+set -e
+set -u
+
+export DUNE_DEBIAN_ENV=${PWD}/debian/dune-debian.env
+./debian/dune-autopkgtest --mpi 2 dune/common/test/mpicollectivecommunication.cc

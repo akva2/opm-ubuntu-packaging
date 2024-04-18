@@ -1,0 +1,7 @@
+install-pkgconfig-without-lib-for-cross-compile
+fix-linitian-file-references-package-build-path-downstream
+fix-linitian-file-references-package-build-path
+soname.patch
+skip-dirs-starting-with-dot.patch
+disable-long-double-eigenvalue-checks.patch
+do-not-install-python-scripts.patch

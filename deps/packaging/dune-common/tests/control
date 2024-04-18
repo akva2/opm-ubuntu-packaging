@@ -1,0 +1,7 @@
+Tests: basic
+Depends:
+ libdune-common-dev,
+ build-essential,
+ mpi-default-bin, mpi-default-dev,
+ libscotchmetis-dev,
+Restrictions: allow-stderr

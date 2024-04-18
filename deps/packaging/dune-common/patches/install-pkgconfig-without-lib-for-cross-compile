@@ -1,0 +1,27 @@
+Install architecture independent pkgconfig file in /usr/share/pkgconfig
+
+This prevents lintian warning pkg-config-unavailable-for-cross-compilation
+for the header only modules dune-istl, dune-localfunctions, dune-functions,
+and dune-typetree.
+--- a/cmake/modules/DuneProject.cmake
++++ b/cmake/modules/DuneProject.cmake
+@@ -224,8 +224,10 @@ endif()")
+   get_property(${ProjectName}_LIBRARIES GLOBAL PROPERTY ${ProjectName}_LIBRARIES)
+   if(${ProjectName}_LIBRARIES)
+     set(DUNE_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
++    set(DUNE_INSTALL_PKGCONFIGDIR ${CMAKE_INSTALL_LIBDIR})
+   else()
+     set(DUNE_INSTALL_LIBDIR ${DUNE_INSTALL_NONOBJECTLIBDIR})
++    set(DUNE_INSTALL_PKGCONFIGDIR ${CMAKE_INSTALL_DATAROOTDIR})
+   endif()
+ 
+   # Set the location of the doc file source. Needed by custom package configuration
+@@ -302,7 +304,7 @@ endif()
+   endif()
+ 
+   # install pkg-config files
+-  create_and_install_pkconfig(${DUNE_INSTALL_LIBDIR})
++  create_and_install_pkconfig(${DUNE_INSTALL_PKGCONFIGDIR})
+ 
+   if(${ProjectName}_EXPORT_SET)
+     # install library export set

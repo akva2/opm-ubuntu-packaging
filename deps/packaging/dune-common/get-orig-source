@@ -1,0 +1,138 @@
+#! /bin/bash
+#
+# get-orig-source for dune
+#
+# (C) 2012, Ansgar Burchardt <ansgar@debian.org>
+# License: GPL-2 with DUNE exception
+
+set -e
+set -u
+set -o pipefail
+
+usage() {
+  echo "usage: get-orig-source [options...] <module> <version> [<branch>]
+  module:  name of dune module (e.g. dune-common)
+  version: upstream version number
+  branch:  branch (default: master); can also be a tag or commit id
+
+  options:
+  --snapshot: date and Git revision is appended to the version number
+  --dch:      run dch to update version number
+  -d <dir>:   create orig tarball in directory <dir>
+
+  environment:
+  DUNE_SOURCE path to DUNE repositories"
+  exit 1
+}
+
+safe-rm() {
+  local -a args
+  args=(--verbose)
+  while [[ $# -gt 0 ]]; do
+    case "${1}" in
+      -*) args+=("${1}"); shift ;;
+      *)  break ;;
+    esac
+  done
+
+  local path
+  local n d r
+  for path in "$@"; do
+    r="${path}"
+    d="."
+    while [[ ${r} =~ .*/.* ]]; do
+      n="${r%%/*}"
+      r="${r#*/}"
+      if [[ $n == "" ]]; then
+        d=""
+        continue
+      fi
+      d="${d}/${n}"
+      if [[ -L "${d}" ]]; then
+        echo "safe-rm: ${d} is a symbolic link (while removing ${path})" >&2
+        exit 1
+      fi
+    done
+  done
+
+  rm "${args[@]}" "${@}"
+}
+
+if [[ $# -lt 2 ]]; then
+  usage
+fi
+
+if [[ -z "${DUNE_SOURCE:-}" ]]; then
+  echo "DUNE_SOURCE is not set" >&2
+  echo "----------------------" >&2
+  echo "Please set DUNE_SOURCE to a directory containing" >&2
+  echo "checkouts of the DUNE modules to avoid cloning them." >&2
+  exit 1
+fi
+
+snapshot=
+dch=
+dir=.
+
+while :; do
+  case "$1" in
+    --snapshot) snapshot=1; shift ;;
+    --dch)      dch=1; shift ;;
+    -d)         dir="$2"; shift 2 ;;
+    *)          break ;;
+  esac
+done
+
+module="$1"
+version="$2"
+branch="${3:-master}"
+if [[ -d "${DUNE_SOURCE}/${module}.git" ]]; then
+  GIT_DIR="${DUNE_SOURCE}/${module}.git"
+elif [[ -d "${DUNE_SOURCE}/${module}/.git" ]]; then
+  GIT_DIR="${DUNE_SOURCE}/${module}/.git"
+else
+  echo "Could not find Git repository for ${module} in ${DUNE_SOURCE}" >&2
+  exit 1
+fi
+
+export GIT_DIR
+
+if [[ $snapshot ]]; then
+  date=$(git log -1 --pretty="format:%ci" ${branch})
+  date=${date%% *}
+  date=${date//-/}
+  version="${version}${date}"
+fi
+
+origdir="$module-$version.orig"
+tarball="$dir/${module}_$version.orig.tar.xz"
+
+if [[ -e "$origdir" || -e "$tarball" ]]; then
+  echo "source directory or tarball already exists" >&2
+  exit 1
+fi
+
+mkdir "${origdir}"
+git archive --format=tar ${branch} | tar -C "${origdir}" -x
+cd "$origdir"
+case "$module" in
+  dune-functions)
+    safe-rm -r doc/manual
+    ;;
+  dune-uggrid)
+    safe-rm -r doc
+    ;;
+  *)
+    if [[ -z "${snapshot}" ]]; then
+      echo "E: Please use the upstream release tarball and signature." >&2
+      exit 1
+    fi
+esac
+cd ..
+
+tar --owner=root --group=root -c "$origdir" | xz -9 > "$tarball"
+rm -rf "$origdir"
+
+if [[ $dch ]]; then
+  dch --newversion "$version-1" "New upstream release ($version)."
+fi

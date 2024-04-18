@@ -1,0 +1,25 @@
+#! /usr/bin/make -f
+
+include /usr/share/dpkg/architecture.mk
+
+DUNE_DEBIAN_ENV := $(CURDIR)/debian/dune-debian.env
+DUNE_CTEST := $(CURDIR)/bin/dune-ctest
+DUNE_DEBIAN_DUNECONTROL := $(CURDIR)/bin/dunecontrol
+
+ifneq ($(filter mips64el mipsel,$(DEB_HOST_ARCH)),)
+  DUNE_TEST_LABELS=quick
+else
+  DUNE_TEST_LABELS=
+endif
+
+include debian/dune-debian.mk
+
+%:
+	dh $@ --builddirectory=build --buildsystem=cmake
+
+override_dh_auto_build-indep:
+	dh_auto_build -- doc
+
+override_dh_installdocs-indep:
+	dh_installdocs
+	dh_sphinxdoc

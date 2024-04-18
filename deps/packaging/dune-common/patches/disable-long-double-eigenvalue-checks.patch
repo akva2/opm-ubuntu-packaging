@@ -1,0 +1,30 @@
+diff --git a/dune/common/test/eigenvaluestest.cc b/dune/common/test/eigenvaluestest.cc
+index 682da2a..a2dad8e 100644
+--- a/dune/common/test/eigenvaluestest.cc
++++ b/dune/common/test/eigenvaluestest.cc
+@@ -340,20 +340,20 @@ int main()
+   testSymmetricFieldMatrix<double,200>();
+   testSymmetricFieldMatrix<float,4>();
+   testSymmetricFieldMatrix<float,200>();
+-  testSymmetricFieldMatrix<long double,4>();
+-  testSymmetricFieldMatrix<long double,200>();
++//   testSymmetricFieldMatrix<long double,4>();
++//   testSymmetricFieldMatrix<long double,200>();
+ #endif // HAVE_LAPACK
+ 
+   testSymmetricFieldMatrix<double,2>();
+   testSymmetricFieldMatrix<double,3>();
+   testSymmetricFieldMatrix<float,2>();
+   testSymmetricFieldMatrix<float,3>();
+-  testSymmetricFieldMatrix<long double,2>();
+-  testSymmetricFieldMatrix<long double,3>();
++//   testSymmetricFieldMatrix<long double,2>();
++//   testSymmetricFieldMatrix<long double,3>();
+ 
+   checkMultiplicity<double>();
+   checkMultiplicity<float>();
+-  checkMultiplicity<long double>();
++//   checkMultiplicity<long double>();
+ 
+   return 0;
+ }

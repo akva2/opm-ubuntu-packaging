@@ -1,0 +1,62 @@
+#! /bin/bash
+
+set -e
+set -u
+
+fail() {
+    echo >&2 "${1:-E: Unknown error}"
+    exit 1
+}
+
+if [ ! -v AUTOPKGTEST_TMP ]; then
+  fail "E: dune-autopkgtest must be invoked by autopkgtest"
+fi
+
+sourcedir=${PWD}
+
+dependencies=
+mpi=
+
+while [ $# -ge 1 ]; do
+    case "${1}" in
+        --depends)
+            dependencies="${2}"
+            shift 2
+            ;;
+        --mpi)
+            mpi="${2}"
+            shift 2
+            ;;
+        *)
+            break
+    esac
+done
+
+if [ $# -ne 1 ]; then
+    fail "E: No source given"
+fi
+source=${1}
+
+if [ -z "${dependencies}" ]; then
+    dependencies=$(dpkg-parsechangelog --show-field Source)
+fi
+
+cd "${AUTOPKGTEST_TMP}"
+duneproject "dune-autopkgtest" "${dependencies}" "0.0.1" "DUNE autopkgtest <invalid@invalid>" <<< y ||
+    fail "E: Setting up dune-autopkgtest project failed"
+
+cp "${sourcedir}/${source}" "${AUTOPKGTEST_TMP}/dune-autopkgtest/src/dune-autopkgtest.cc"
+
+cd dune-autopkgtest
+
+. ${DUNE_DEBIAN_ENV:-/usr/share/dune/dune-debian.env}
+
+dunecontrol --current all ||
+    fail "E: Building the package failed."
+
+./build-cmake/src/dune-autopkgtest ||
+    fail "E: Running the test program failed."
+if [ -n "${mpi}" ]; then
+    mpirun -np "${mpi}" ./build-cmake/src/dune-autopkgtest ||
+        fail "E: Running the test program under MPI with ${mpi} ranks failed."
+fi

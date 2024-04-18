@@ -1,0 +1,24 @@
+Make sure current CXXFLAGS in cmake config files get substituted.
+
+Prevents the build path from appearing in dune-module-config.cmake
+files of downstream modules and prevents the lintian warning about
+that.
+--- a/cmake/modules/DuneProject.cmake
++++ b/cmake/modules/DuneProject.cmake
+@@ -188,11 +188,11 @@ set(${ProjectName}_INSTALLED @MODULE_INSTALLED@)
+ #report other information
+ set_and_check(${ProjectName}_PREFIX \"\${PACKAGE_PREFIX_DIR}\")
+ set_and_check(${ProjectName}_INCLUDE_DIRS \"@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@\")
+-set(${ProjectName}_CXX_FLAGS \"${CMAKE_CXX_FLAGS}\")
+-set(${ProjectName}_CXX_FLAGS_DEBUG \"${CMAKE_CXX_FLAGS_DEBUG}\")
+-set(${ProjectName}_CXX_FLAGS_MINSIZEREL \"${CMAKE_CXX_FLAGS_MINSIZEREL}\")
+-set(${ProjectName}_CXX_FLAGS_RELEASE \"${CMAKE_CXX_FLAGS_RELEASE}\")
+-set(${ProjectName}_CXX_FLAGS_RELWITHDEBINFO \"${CMAKE_CXX_FLAGS_RELWITHDEBINFO}\")
++set(${ProjectName}_CXX_FLAGS \"@CMAKE_CXX_FLAGS@\")
++set(${ProjectName}_CXX_FLAGS_DEBUG \"@CMAKE_CXX_FLAGS_DEBUG@\")
++set(${ProjectName}_CXX_FLAGS_MINSIZEREL \"@CMAKE_CXX_FLAGS_MINSIZEREL@\")
++set(${ProjectName}_CXX_FLAGS_RELEASE \"@CMAKE_CXX_FLAGS_RELEASE@\")
++set(${ProjectName}_CXX_FLAGS_RELWITHDEBINFO \"@CMAKE_CXX_FLAGS_RELWITHDEBINFO@\")
+ set(${ProjectName}_DEPENDS \"@${ProjectName}_DEPENDS@\")
+ set(${ProjectName}_SUGGESTS \"@${ProjectName}_SUGGESTS@\")
+ set(${ProjectName}_MODULE_PATH \"@PACKAGE_DUNE_INSTALL_MODULEDIR@\")
